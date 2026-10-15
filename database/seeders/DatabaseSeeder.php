@@ -14,6 +14,5 @@ class DatabaseSeeder extends Seeder
         // No hay usuarios en el MVP: la identidad de cada jugador sale de la
         // sesión (5.5), así que no se siembra ningún usuario de prueba.
         $this->call([GameStateSeeder::class, GameUpgradeSeeder::class]);
-use Database\Seeders\GameUpgradeSeeder;
     }
 }
