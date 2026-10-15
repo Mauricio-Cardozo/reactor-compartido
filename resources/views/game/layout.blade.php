@@ -37,10 +37,16 @@
             </p>
         </header>
 
-        <p class="flex flex-wrap items-baseline gap-2 rounded-lg border border-slate-800 bg-slate-900/40 px-4 py-2 text-xs text-slate-400">
-            <span class="uppercase tracking-wide text-slate-500">Último evento</span>
-            <span data-last-event>—</span>
-        </p>
+        <div class="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-800 bg-slate-900/40 px-4 py-2 text-xs text-slate-400">
+            <p class="flex flex-wrap items-baseline gap-2">
+                <span class="uppercase tracking-wide text-slate-500">Último evento</span>
+                <span data-last-event>—</span>
+            </p>
+            <div class="flex flex-wrap items-center gap-3" data-resources>
+                <span>Energía: <strong data-energy class="font-mono">0.0000</strong></span>
+                <span>Créditos: <strong data-credits class="font-mono">0.0000</strong></span>
+            </div>
+        </div>
 
         <main class="flex-1" @hasSection('screen') data-screen="@yield('screen')" @endif>
             @yield('content')
