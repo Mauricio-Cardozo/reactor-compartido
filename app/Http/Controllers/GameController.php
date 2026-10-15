@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClickRequest;
+use App\Http\Requests\UpgradeRequest;
 use App\Services\GameService;
+use App\Services\GameUpgradeService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 
@@ -50,5 +52,14 @@ class GameController extends Controller
     public function state(): JsonResponse
     {
         return response()->json($this->game->state());
+    }
+
+    public function upgrade(UpgradeRequest $request, GameUpgradeService $service): JsonResponse
+    {
+        try {
+            return response()->json($service->upgrade($request->validated('type')));
+        } catch (\DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
     }
 }

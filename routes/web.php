@@ -13,3 +13,7 @@ Route::controller(GameController::class)->group(function () {
     Route::get('/game/state', 'state')->name('game.state');
     Route::post('/game/click', 'click')->middleware('throttle.clicks')->name('game.click');
 });
+
+Route::controller(GameController::class)->group(function () {
+    Route::post('/game/upgrade', 'upgrade')->middleware('throttle.clicks')->name('game.upgrade');
+});
