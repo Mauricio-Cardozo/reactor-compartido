@@ -23,6 +23,18 @@ return [
         'rate' => '0.1',
     ],
 
+    'precision' => [
+        // Escala de energía y créditos: el redondeo se centraliza en
+        // GameService, nunca en la columna ni en el cliente (RNF-08).
+        'scale' => 4,
+    ],
+
+    'multiplier' => [
+        // Aporte aditivo de cada nivel al multiplicador permanente: cinco
+        // niveles dan ×1,5, no ×1,61 compuesto.
+        'bonus_per_level' => '0.1',
+    ],
+
     'limits' => [
         // Máximo de clicks por segundo y por jugador (RNF-03).
         'clicks_per_second' => 15,
