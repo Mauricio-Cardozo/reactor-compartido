@@ -42,4 +42,9 @@ return [
         'clicks_per_request' => 15,
     ],
 
+    'upgrades' => [
+        'click' => ['base_cost' => 10, 'cost_factor' => '1.15', 'power_per_level' => 1],
+        'generator' => ['base_cost' => 25, 'cost_factor' => '1.15', 'energy_per_second' => 1],
+        'multiplier' => ['base_cost' => 200, 'cost_factor' => '1.5', 'bonus_per_level' => '0.1'],
+    ],
 ];
