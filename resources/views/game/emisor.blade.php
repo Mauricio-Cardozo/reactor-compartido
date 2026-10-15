@@ -12,9 +12,19 @@
 
         <section class="space-y-4 rounded-xl border border-slate-800 bg-slate-900/40 p-5">
             <div>
-                <p class="text-xs uppercase tracking-wide text-slate-500">Estado del reactor</p>
+                <p class="text-xs uppercase tracking-wide text-slate-500">Reactor</p>
                 <p class="mt-2 text-sm text-slate-400">
-                    El control de clicks y la energía llegan en el siguiente paso del Hito 2.
+                    Clickear para producir energía. El servidor agrupa por lote: cada ~200 ms se envía lo acumulado.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3">
+                <button type="button" data-click-button
+                        class="rounded-md bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-950 transition hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 active:scale-[0.98]">
+                    Activar reactor
+                </button>
+                <p class="text-xs text-slate-500">
+                    Lote pendiente: <span data-batch-count>0</span>
                 </p>
             </div>
         </section>
