@@ -1,0 +1,16 @@
+services:
+  db:
+    image: mariadb:latest
+    container_name: reactor-db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: reactor_compartido
+      MARIADB_USER: reactor
+      MARIADB_PASSWORD: reactor
+    ports:
+      - "3307:3306"
+    volumes:
+      - reactor-db-data:/var/lib/mysql
+volumes:
+  reactor-db-data: {}
