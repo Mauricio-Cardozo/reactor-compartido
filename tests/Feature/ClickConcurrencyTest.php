@@ -6,7 +6,6 @@ use App\Models\GameState;
 use Database\Seeders\GameStateSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class ClickConcurrencyTest extends TestCase
@@ -22,7 +21,7 @@ class ClickConcurrencyTest extends TestCase
     /**
      * @group concurrency
      */
-    public function test_lockForUpdate_prevents_lost_updates(): void
+    public function test_lock_for_update_prevents_lost_updates(): void
     {
         if (DB::getDriverName() !== 'mysql') {
             $this->markTestSkipped('Este test requiere MySQL/MariaDB para probar lockForUpdate.');
