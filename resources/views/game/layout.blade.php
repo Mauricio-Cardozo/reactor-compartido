@@ -3,8 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Reactor') · {{ config('app.name') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/game.js'])
 </head>
 <body class="h-full bg-slate-950 text-slate-100 antialiased">
     <div class="mx-auto flex min-h-full max-w-5xl flex-col gap-6 p-4 sm:p-6">
@@ -32,9 +33,14 @@
 
             <p class="flex items-center gap-2 text-xs text-slate-400">
                 <span class="inline-block size-2 rounded-full bg-slate-600" data-connection-dot></span>
-                <span data-connection-status>Sin conexión</span>
+                <span data-connection-status>Conectando…</span>
             </p>
         </header>
+
+        <p class="flex flex-wrap items-baseline gap-2 rounded-lg border border-slate-800 bg-slate-900/40 px-4 py-2 text-xs text-slate-400">
+            <span class="uppercase tracking-wide text-slate-500">Último evento</span>
+            <span data-last-event>—</span>
+        </p>
 
         <main class="flex-1" @hasSection('screen') data-screen="@yield('screen')" @endif>
             @yield('content')
