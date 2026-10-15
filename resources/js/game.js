@@ -83,33 +83,6 @@ function watchConnection() {
     connection.bind('state_change', ({ current }) => paint(current));
 }
 
-async function post(url) {
-    const token = find('meta[name="csrf-token"]')?.content ?? '';
-
-    return fetch(url, {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'X-CSRF-TOKEN': token,
-        },
-    });
-}
-
-function wireTestButtons() {
-    document.querySelectorAll('[data-test-broadcast]').forEach((button) => {
-        button.addEventListener('click', async () => {
-            button.disabled = true;
-
-            try {
-                await post(button.dataset.url);
-            } finally {
-                button.disabled = false;
-            }
-        });
-    });
-}
-
 window.Echo.channel('reactor').listen('.GameStateUpdated', (snapshot) => render(snapshot));
 
 watchConnection();
-wireTestButtons();
