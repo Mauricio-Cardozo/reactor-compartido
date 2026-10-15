@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\GameStateUpdated;
-use Illuminate\Http\Response;
+use App\Http\Requests\ClickRequest;
+use App\Services\GameService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 
 class GameController extends Controller
 {
+    public function __construct(private readonly GameService $game) {}
+
     /**
      * Selector de rol: punto de entrada al reactor compartido.
      */
@@ -33,21 +36,19 @@ class GameController extends Controller
     }
 
     /**
-     * Emite un evento de prueba para verificar el canal en tiempo real.
-     *
-     * Temporal: solo existe mientras el Hito 1 necesita comprobar que el
-     * broadcast llega a las dos pantallas. Lo reemplaza el endpoint de clicks
-     * (#13) y no debe quedar habilitado fuera de desarrollo.
+     * Aplica un lote de clicks y devuelve el estado ya persistido.
      */
-    public function ping(): Response
+    public function click(ClickRequest $request): JsonResponse
     {
-        abort_unless(app()->environment(['local', 'testing']), 404);
+        return response()->json($this->game->click((int) $request->validated('clicks')));
+    }
 
-        GameStateUpdated::dispatch([
-            'action' => ['type' => 'ping'],
-            'updated_at' => now()->toIso8601String(),
-        ]);
-
-        return response()->noContent();
+    /**
+     * Estado actual: lo consultan las pantallas al entrar y al reconectarse
+     * (RF-09).
+     */
+    public function state(): JsonResponse
+    {
+        return response()->json($this->game->state());
     }
 }

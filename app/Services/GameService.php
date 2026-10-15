@@ -19,8 +19,9 @@ class GameService
      * Aplica un lote de clicks y publica el estado ya persistido.
      *
      * @param  int  $clicks  cantidad de clicks del lote (>= 1, ya validada por el Form Request)
+     * @return array<string, mixed> snapshot público que también se emite por el canal
      */
-    public function click(int $clicks): GameState
+    public function click(int $clicks): array
     {
         $state = DB::transaction(function () use ($clicks): GameState {
             // El bloqueo es lo que evita que dos jugadores acrediten el mismo
@@ -37,24 +38,30 @@ class GameService
             return $state;
         });
 
-        // Fuera de la transacción: ningún cliente puede ver un estado que
-        // después se revierta (5.1).
-        GameStateUpdated::dispatch($this->snapshot($state, [
+        return $this->publish($state, [
             'type' => 'click',
             'clicks' => $clicks,
-        ]));
-
-        return $state;
+        ]);
     }
 
     /**
-     * Snapshot público del reactor: es lo que viaja por el canal y lo que
-     * devuelven los endpoints de estado.
+     * Estado actual del reactor, listo para mostrar.
+     *
+     * @return array<string, mixed>
+     */
+    public function state(): array
+    {
+        return $this->snapshot($this->currentState(), ['type' => 'sync']);
+    }
+
+    /**
+     * Snapshot público del reactor: lo devuelven los endpoints y es lo que
+     * viaja por el canal.
      *
      * @param  array<string, mixed>  $action
      * @return array<string, mixed>
      */
-    public function snapshot(GameState $state, array $action): array
+    private function snapshot(GameState $state, array $action): array
     {
         return [
             'version' => $state->version,
@@ -65,6 +72,28 @@ class GameService
             'action' => $action,
             'updated_at' => $state->updated_at?->toIso8601String(),
         ];
+    }
+
+    /**
+     * Emite el estado ya persistido, nunca desde dentro de la transacción:
+     * si fallara después del broadcast, los clientes verían un estado que no
+     * se guardó (5.1).
+     *
+     * @param  array<string, mixed>  $action
+     * @return array<string, mixed>
+     */
+    private function publish(GameState $state, array $action): array
+    {
+        $snapshot = $this->snapshot($state, $action);
+
+        GameStateUpdated::dispatch($snapshot);
+
+        return $snapshot;
+    }
+
+    private function currentState(): GameState
+    {
+        return GameState::query()->firstOrFail();
     }
 
     /**
