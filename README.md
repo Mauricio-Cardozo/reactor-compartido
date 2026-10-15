@@ -71,3 +71,4 @@ jq -c 'select(.event == "sql.slow")' storage/logs/sql-$(date +%Y-%m-%d).log
 - GitHub Flow: `main` siempre estable; una rama por issue (`feat/12-click-endpoint`).
 - Commits atómicos con [Conventional Commits](https://www.conventionalcommits.org/).
 - PRs chicos (ideal <300 líneas), con `Closes #n` y CI verde antes del merge.
+- Cada hito se etiqueta al cerrarse (`v0.1.0` tras el Hito 1) y su resumen queda anotado en [CHANGELOG.md](CHANGELOG.md).
