@@ -14,19 +14,7 @@
             <div>
                 <p class="text-xs uppercase tracking-wide text-slate-500">Estado del reactor</p>
                 <p class="mt-2 text-sm text-slate-400">
-                    Todavía no hay recursos que mostrar: los clicks y la energía llegan en el Hito 2.
-                </p>
-            </div>
-
-            <div class="border-t border-slate-800 pt-4">
-                <button type="button"
-                        data-test-broadcast
-                        data-url="{{ route('game.ping') }}"
-                        class="rounded-md bg-emerald-500 px-4 py-2 text-sm font-medium text-slate-950 transition hover:bg-emerald-400 disabled:opacity-50">
-                    Emitir evento de prueba
-                </button>
-                <p class="mt-2 text-xs text-slate-500">
-                    Temporal (Hito 1): emite un <code>GameStateUpdated</code> para comprobar que la otra pestaña se actualiza.
+                    El control de clicks y la energía llegan en el siguiente paso del Hito 2.
                 </p>
             </div>
         </section>
